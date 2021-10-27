@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-public class MyDataBaseHelper extends SQLiteOpenHelper{
+class MyDataBaseHelper extends SQLiteOpenHelper {
 
     private  Context context;
     private  static final String DATABASE_NAME = "BookLibrary.db";
@@ -26,7 +26,7 @@ public class MyDataBaseHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = "CREATE TABLE" + TABLE_NAME +
+        String query = "CREATE TABLE " + TABLE_NAME +
                         " (" + COLUMN_ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         COLUMN_TITLE + " TEXT, " +
                         COLUMN_AUTHOR + " TEXT, " +
@@ -35,8 +35,8 @@ public class MyDataBaseHelper extends SQLiteOpenHelper{
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        db.execSQL("DROP TABLE IF EXISTS" + TABLE_NAME);
+    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
 }

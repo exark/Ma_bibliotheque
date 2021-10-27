@@ -10,9 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaBibliotheque">
         <activity
+            android:name=".AddActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
-            android:label="book Library"
-            android:exported="true">
+            android:exported="true"
+            android:label="book Library">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
