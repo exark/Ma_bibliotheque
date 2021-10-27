@@ -10,6 +10,11 @@ public class Livre {
     private String date_parution;
     private String couverture;
 
+    //constructors
+
+    public Livre() {
+    }
+
     public Livre(int id, String titre, String auteur, String description, String date_parution, String couverture) {
         this.id = id;
         this.titre = titre;
@@ -18,6 +23,8 @@ public class Livre {
         this.date_parution = date_parution;
         this.couverture = couverture;
     }
+
+    //Getters and Setters
 
     public int getId() {
         return id;
