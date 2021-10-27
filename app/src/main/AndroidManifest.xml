@@ -11,7 +11,8 @@
         android:theme="@style/Theme.MaBibliotheque">
         <activity
             android:name=".AddActivity"
-            android:exported="false" />
+            android:label="Add Book"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
