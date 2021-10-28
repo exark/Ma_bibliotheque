@@ -1,6 +1,7 @@
 package com.example.mabibliotheque;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.annotation.Nullable;
 
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     MyDataBaseHelper myDB;
     ArrayList<String> book_id, book_title, book_author, book_pages;
+    CustomAdapter customAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,11 @@ public class MainActivity extends AppCompatActivity {
         book_pages = new ArrayList<>();
 
         storeDataInArrays();
+
+        customAdapter = new CustomAdapter(MainActivity.this, book_id, book_title, book_author,
+                book_pages);
+        recyclerView.setAdapter(customAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
     }
 
     void storeDataInArrays(){
