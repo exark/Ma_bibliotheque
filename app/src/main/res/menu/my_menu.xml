@@ -5,5 +5,5 @@
         android:id="@+id/delete_all"
         android:title="delete All"
         android:icon="@drawable/ic_delete"
-        app:showAsAction="always"/>
+        app:showAsAction="never"/>
 </menu>
