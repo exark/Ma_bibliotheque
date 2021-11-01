@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     FloatingActionButton add_button;
+    ImageView empty_imageview;
     TextView no_data;
 
     MyDataBaseHelper myDB;
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         add_button = findViewById(R.id.add_button);
+        empty_imageview = findViewById(R.id.empty_imageview);
+        no_data = findViewById(R.id.no_data);
         add_button.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, AddActivity.class);
             startActivity(intent);
@@ -70,7 +74,8 @@ public class MainActivity extends AppCompatActivity {
     void storeDataInArrays(){
         Cursor cursor = myDB.readAllData();
         if(cursor.getCount() == 0){
-            Toast.makeText(this, "No Data.", Toast.LENGTH_SHORT).show();
+            empty_imageview.setVisibility(View.VISIBLE);
+            no_data.setVisibility(View.VISIBLE);
         }else{
             while (cursor.moveToNext()){
                 book_id.add(cursor.getString(0));
@@ -78,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
                 book_author.add(cursor.getString(2));
                 book_pages.add(cursor.getString(3));
             }
+            empty_imageview.setVisibility(View.GONE);
+            no_data.setVisibility(View.GONE);
         }
     }
 
@@ -98,18 +105,24 @@ public class MainActivity extends AppCompatActivity {
 
     void confirmDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Delete All ?");
-        builder.setMessage("Are you sure you want to delete all Data ?");
-        builder.setPositiveButton("yes", (dialog, which) -> {
-            MyDataBaseHelper mydb = new MyDataBaseHelper(MainActivity.this);
+        builder.setTitle("Delete All?");
+        builder.setMessage("Are you sure you want to delete all Data?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                MyDataBaseHelper myDB = new MyDataBaseHelper(MainActivity.this);
+                myDB.deleteAllData();
+                //Refresh Activity
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
         });
-        builder.setNegativeButton("No", (dialog, which) -> {
-            MyDataBaseHelper myDB = new MyDataBaseHelper(MainActivity.this);
-            myDB.deleteAllData();
-            //Refresh activity
-            Intent intent = new Intent(MainActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
         });
         builder.create().show();
     }
