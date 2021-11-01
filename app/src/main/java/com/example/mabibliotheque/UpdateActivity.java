@@ -28,17 +28,14 @@ public class UpdateActivity extends AppCompatActivity {
         //First we call this
         getAndSetIntentData();
 
-        update_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //And only then we call this
-                MyDataBaseHelper myDB = new MyDataBaseHelper(UpdateActivity.this);
-                myDB.updateData(id, title, author, pages);
-            }
+        update_button.setOnClickListener(v -> {
+            //And only then we call this
+            MyDataBaseHelper myDB = new MyDataBaseHelper(UpdateActivity.this);
+            title = title_input.getText().toString().trim();
+            author = author_input.getText().toString().trim();
+            pages = pages_input.getText().toString().trim();
+            myDB.updateData(id,title,author,pages);
         });
-
-
-
     }
 
     void getAndSetIntentData(){

@@ -59,7 +59,7 @@ class MyDataBaseHelper extends SQLiteOpenHelper {
     }
 
     Cursor readAllData(){
-        String query="SELECT * FROM " + TABLE_NAME;
+        String query = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
@@ -78,10 +78,11 @@ class MyDataBaseHelper extends SQLiteOpenHelper {
 
         long result = db.update(TABLE_NAME, cv, "_id=?", new String[]{row_id});
         if(result == -1){
-            Toast.makeText(context, "failed to Update.", Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(context, "Successfully Updated!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(context, "Updated Successfully!", Toast.LENGTH_SHORT).show();
         }
+
     }
 
 
