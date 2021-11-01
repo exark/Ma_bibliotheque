@@ -1,11 +1,13 @@
 package com.example.mabibliotheque;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.annotation.Nullable;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -23,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     FloatingActionButton add_button;
+    TextView no_data;
 
     MyDataBaseHelper myDB;
     ArrayList<String> book_id, book_title, book_author, book_pages;
@@ -35,12 +39,9 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         add_button = findViewById(R.id.add_button);
-        add_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddActivity.class);
-                startActivity(intent);
-            }
+        add_button.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, AddActivity.class);
+            startActivity(intent);
         });
 
         myDB = new MyDataBaseHelper(MainActivity.this);
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     void storeDataInArrays(){
         Cursor cursor = myDB.readAllData();
         if(cursor.getCount() == 0){
+            Toast.makeText(this, "No Data.", Toast.LENGTH_SHORT).show();
         }else{
             while (cursor.moveToNext()){
                 book_id.add(cursor.getString(0));
@@ -89,10 +91,28 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.delete_all){
-            Toast.makeText(this, "Delete", Toast.LENGTH_SHORT).show();
-            MyDataBaseHelper myDB = new MyDataBaseHelper(this);
-            myDB.deleteAllData();
+            confirmDialog();
         }
         return super.onOptionsItemSelected(item);
     }
+
+    void confirmDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Delete All ?");
+        builder.setMessage("Are you sure you want to delete all Data ?");
+        builder.setPositiveButton("yes", (dialog, which) -> {
+            MyDataBaseHelper mydb = new MyDataBaseHelper(MainActivity.this);
+        });
+        builder.setNegativeButton("No", (dialog, which) -> {
+            MyDataBaseHelper myDB = new MyDataBaseHelper(MainActivity.this);
+            myDB.deleteAllData();
+            //Refresh activity
+            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
+        builder.create().show();
+    }
+
+
 }
