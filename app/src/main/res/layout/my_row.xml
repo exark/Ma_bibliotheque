@@ -16,6 +16,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#DCD4D4"
             android:padding="12dp">
 
             <TextView
@@ -25,7 +26,7 @@
                 android:layout_marginStart="16dp"
                 android:padding="12dp"
                 android:text="1"
-                android:textColor="@color/black"
+                android:textColor="#000"
                 android:textSize="40sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -40,9 +41,9 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:text="title 1"
+                android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"
                 app:layout_constraintStart_toEndOf="@+id/book_id_txt"
                 app:layout_constraintTop_toTopOf="@+id/book_id_txt" />
 
