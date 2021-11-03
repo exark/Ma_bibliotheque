@@ -98,6 +98,7 @@ class MyDataBaseHelper extends SQLiteOpenHelper {
     void deleteAllData(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_NAME);
+        Toast.makeText(context, "All Data Deleted.", Toast.LENGTH_SHORT).show();
     }
 
 
