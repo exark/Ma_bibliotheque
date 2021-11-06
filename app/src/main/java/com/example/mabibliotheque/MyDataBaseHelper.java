@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 
+import java.util.jar.Attributes;
+
 
 class MyDataBaseHelper extends SQLiteOpenHelper {
 
@@ -101,6 +103,14 @@ class MyDataBaseHelper extends SQLiteOpenHelper {
         Toast.makeText(context, "All Data Deleted.", Toast.LENGTH_SHORT).show();
     }
 
+    /*
+    Cursor searchBook(String text){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "Select * from "+TABLE_NAME+" WHERE "+ TABLE_NAME+" like '@"+text+"@'";
+        Cursor cursor = db.rawQuery(query, null);
+        return cursor;
+    }
+     */
 
 
 
