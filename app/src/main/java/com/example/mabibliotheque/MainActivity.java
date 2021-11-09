@@ -3,11 +3,9 @@ package com.example.mabibliotheque;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.annotation.Nullable;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -15,16 +13,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     RecyclerView recyclerView;
     FloatingActionButton add_button;
@@ -92,9 +88,14 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.my_menu, menu);
+
+
         //search bar
-        MenuItem searchItem = menu.findItem(R.id.item_search);
-        SearchView searchView =  (SearchView) MenuItemCompat.getActionView(searchItem);
+        /*MenuItem searchItem = menu.findItem(R.id.search_bar);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -103,24 +104,16 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                ArrayList<ArrayList<String>> books = new ArrayList<>();
-
-                for (String title : book_title){
-                    if(title.toLowerCase().contains(newText.toLowerCase())){
-                        books.add(book_title);
-                    }
-                }
-                ArrayAdapter<String> customAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.activity_list_item, book_title);
-                book_title.set(customAdapter);
-                return true;
+                customAdapter.getFilter().filter(newText);
+                return false;
             }
-        });
-        //end search bar
+        });*/
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        //delete all
         if(item.getItemId() == R.id.delete_all){
             confirmDialog();
         }

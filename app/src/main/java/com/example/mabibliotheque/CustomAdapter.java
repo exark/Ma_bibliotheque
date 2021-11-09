@@ -8,21 +8,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
+public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> implements Filterable {
 
+    private List<Livre> livres;
+    private List<Livre> livresFull;
 
     private Context context;
     private Activity activity;
     private ArrayList book_id, book_title, book_author, book_pages;
-
     Animation translate_anim;
 
     CustomAdapter(Activity activity, Context context, ArrayList book_id, ArrayList book_title, ArrayList book_author,
@@ -67,6 +73,44 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         return book_id.size();
     }
 
+    //debut test
+    @Override
+    public Filter getFilter(){
+        return livreFilter;
+    }
+
+    private Filter livreFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Livre> filteredList = new ArrayList<>();
+
+            if(constraint == null || constraint.length() == 0){
+                filteredList.addAll(livresFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (Livre livre : livresFull){
+                    if (livre.getTitle().toLowerCase().contains(filterPattern)){
+                        filteredList.add(livre);
+                    }
+                }
+
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            livres.clear();
+            livres.addAll((List)results.values);
+            notifyDataSetChanged();
+        }
+    };
+
+    //fin Test
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView book_id_txt, book_title_txt, book_author_txt, book_pages_txt;
@@ -83,5 +127,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             translate_anim = AnimationUtils.loadAnimation(context, R.anim.translate_anim);
             mainLayout.setAnimation(translate_anim);
         }
+    }
+
+    CustomAdapter(List<Livre> livres){
+        this.livres = livres;
+        livresFull = new ArrayList<>(livres);
     }
 }
