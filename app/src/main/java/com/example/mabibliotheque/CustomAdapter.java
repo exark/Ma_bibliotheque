@@ -16,31 +16,27 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> implements Filterable{
-
-
-
     private Context context;
     private Activity activity;
-    private ArrayList book_id, book_title, book_author, book_pages;
+    private ArrayList<String> book_id;
+    private ArrayList<String> book_title;
+    private ArrayList<String> book_author;
+    private ArrayList<String> book_pages;
     Animation translate_anim;
-    List<String> livreList;
 
-    CustomAdapter(Activity activity, Context context, ArrayList book_id, ArrayList book_title, ArrayList book_author,
-                  ArrayList book_pages){
+    CustomAdapter(Activity activity, Context context, ArrayList<String> book_id, ArrayList<String>  book_title, ArrayList<String> book_author,
+                  ArrayList<String> book_pages){
         this.activity = activity;
         this.context = context;
         this.book_id = book_id;
         this.book_title = book_title;
         this.book_author = book_author;
         this.book_pages = book_pages;
-        this.livreList = new ArrayList<>(livreList);
     }
 
     @NonNull
@@ -76,7 +72,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     }
 
     //search bar
-    @Override
+
+
     public  Filter getFilter() {
         return filter;
     }
@@ -102,8 +99,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            livreList.clear();
-            livreList.addAll((Collection<? extends String>) results.values);
+            book_title.clear();
+            book_title.addAll((Collection<? extends String>) results.values);
             notifyDataSetChanged();
         }
     };
