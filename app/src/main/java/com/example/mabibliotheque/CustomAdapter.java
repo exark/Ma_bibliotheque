@@ -18,10 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
+public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> implements Filterable{
 
 
 
@@ -29,6 +30,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     private Activity activity;
     private ArrayList book_id, book_title, book_author, book_pages;
     Animation translate_anim;
+    List<String> livreList;
 
     CustomAdapter(Activity activity, Context context, ArrayList book_id, ArrayList book_title, ArrayList book_author,
                   ArrayList book_pages){
@@ -38,6 +40,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         this.book_title = book_title;
         this.book_author = book_author;
         this.book_pages = book_pages;
+        this.livreList = new ArrayList<>(livreList);
     }
 
     @NonNull
@@ -71,6 +74,40 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     public int getItemCount() {
         return book_id.size();
     }
+
+    //search bar
+    @Override
+    public  Filter getFilter() {
+        return filter;
+    }
+
+    Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<String> filteredList = new ArrayList<>();
+
+            if(constraint.toString().isEmpty()){
+                filteredList.addAll(book_title);
+            }else {
+                for(Object title: book_title){
+                    if(title.toString().toLowerCase().contains(constraint.toString().toLowerCase())){
+                        filteredList.add((String) title);
+                    }
+                }
+            }
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            livreList.clear();
+            livreList.addAll((Collection<? extends String>) results.values);
+            notifyDataSetChanged();
+        }
+    };
+    //search bar end
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
