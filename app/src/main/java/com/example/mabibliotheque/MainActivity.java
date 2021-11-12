@@ -14,8 +14,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,7 +37,10 @@ public class MainActivity extends AppCompatActivity{
     TextView no_data;
 
     MyDataBaseHelper myDB;
-    ArrayList<String> book_id, book_title, book_author, book_pages;
+    ArrayList<String> book_id;
+    ArrayList<String> book_title;
+    ArrayList<String> book_author;
+    ArrayList<String> book_pages;
     CustomAdapter customAdapter;
 
     @Override
@@ -70,8 +71,6 @@ public class MainActivity extends AppCompatActivity{
                 book_pages);
         recyclerView.setAdapter(customAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-
-
     }
 
     @Override
